@@ -1,0 +1,22 @@
+:root {
+  /* Sane default values */
+  --visual-color: '#000';
+  --visual-modulation-frequency: 100ms;
+}
+
+@keyframes sineBg {
+  from { background: '#000'; }
+  to { background: var(--visual-color); }
+}
+
+.start-screen, .alpha-brain {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+}
+
+.alpha-brain {
+  animation: sineBg var(--visual-modulation-frequency) alternate infinite ease-in-out;
+}
