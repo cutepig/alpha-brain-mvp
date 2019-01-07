@@ -1,8 +1,8 @@
 import {el, mount, setChildren} from 'redom';
-import {IServices, createServices} from 'ab/ui/services/services';
-import {IConfig} from 'ab/services/configService';
-import {IFlow} from 'ab/ui/services/flowService';
 import xs from 'xstream';
+import {IServices, createServices} from 'ab/services/services';
+import {IConfig} from 'ab/services/configService';
+import {IFlow} from 'ab/services/flowService';
 import {subscribeTo, IComponent} from 'ab/redomHelpers';
 import {StartScreen} from 'ab/ui/StartScreen';
 import {AVEScreen} from 'ab/ui/AVEScreen';

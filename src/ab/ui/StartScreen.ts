@@ -1,5 +1,5 @@
 import {el} from 'redom';
-import {IServices} from 'ab/ui/services/services';
+import {IServices} from 'ab/services/services';
 
 export function StartScreen({flow}: IServices) {
   return el(

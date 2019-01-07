@@ -1,5 +1,5 @@
 import {createConfigService} from 'ab/services/configService';
-import {createFlowService} from 'ab/ui/services/flowService';
+import {createFlowService} from 'ab/services/flowService';
 
 export interface IServices {
   config: ReturnType<typeof createConfigService>;

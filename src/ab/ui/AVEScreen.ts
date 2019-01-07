@@ -2,7 +2,7 @@
 import NoSleep from 'nosleep.js';
 import {IConfig} from 'ab/services/configService';
 import {el} from 'redom';
-import {IServices} from 'ab/ui/services/services';
+import {IServices} from 'ab/services/services';
 
 console.log('nosleep?', NoSleep);
 
