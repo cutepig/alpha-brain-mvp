@@ -1,54 +1,67 @@
+import React, {Component} from 'react';
 // @ts-ignore
 import NoSleep from 'nosleep.js';
 import {IConfig} from 'ab/services/configService';
-import {el} from 'redom';
-import {IServices} from 'ab/services/services';
-
-console.log('nosleep?', NoSleep);
+import {IServices, Services, ServicesObserver} from 'ab/services/services';
 
 interface IAVEScreen {
   config: IConfig;
 }
 
-export class AVEScreen {
-  el: HTMLElement;
-  config: IConfig;
+class _AVEScreen extends Component<IAVEScreen> {
+  el: HTMLDivElement | null = null;
   nosleep: any;
   audioContext: AudioContext;
   carrierNode: OscillatorNode;
   modulatorNode: OscillatorNode;
   gainNode: GainNode;
 
-  constructor({config}: IAVEScreen, {flow}: IServices) {
-    this.config = config;
+  constructor(props: IAVEScreen) {
+    super(props);
+
     // TODO: Move nosleep to services
     this.nosleep = new NoSleep();
     this.audioContext = new AudioContext();
     this.carrierNode = new OscillatorNode(this.audioContext);
     this.modulatorNode = new OscillatorNode(this.audioContext);
     this.gainNode = new GainNode(this.audioContext);
+  }
 
-    this.el = el('div.alpha-brain', {
-      onclick: () => flow.action$.shamefullySendNext({type: 'changeScreen', payload: 'start'}),
-    });
-    this.el.style.setProperty(
+  render() {
+    return (
+      <Services.Consumer>
+        {({flow}: IServices) => (
+          <div
+            className="ave-screen"
+            ref={el => (this.el = el)}
+            onClick={() =>
+              flow.action$.shamefullySendNext({type: 'changeScreen', payload: 'start'})
+            }
+          />
+        )}
+      </Services.Consumer>
+    );
+  }
+
+  componentDidMount() {
+    const {config} = this.props;
+
+    this.el!.style.setProperty(
       '--visual-color',
       `hsl(${config.visualHue}deg, 100%, ${config.visualIntensity}%)`,
     );
-    this.el.style.setProperty(
+    this.el!.style.setProperty(
       '--visual-modulation-frequency',
       `${0.5 / config.visualModulationFrequency}s`,
     );
 
+    // TODO: config this
+    this.el!.requestFullscreen();
+    this.nosleep.enable();
+
     this.carrierNode.frequency.value = config.audioCarrierFrequency;
     this.modulatorNode.frequency.value = config.audioModulationFrequency;
     this.gainNode.gain.value = 0;
-  }
-
-  onmount() {
-    // TODO: config this
-    this.el.requestFullscreen();
-    this.nosleep.enable();
 
     this.modulatorNode.connect(this.gainNode.gain);
     this.carrierNode.connect(this.gainNode);
@@ -58,7 +71,7 @@ export class AVEScreen {
     this.carrierNode.start(0);
   }
 
-  onunmount() {
+  componentWillUnmount() {
     this.nosleep.disable();
 
     // @ts-ignore
@@ -73,3 +86,9 @@ export class AVEScreen {
     this.modulatorNode.disconnect();
   }
 }
+
+export const AVEScreen = () => (
+  <ServicesObserver obs={(services: IServices) => services.config.state$}>
+    {config => <_AVEScreen config={config} />}
+  </ServicesObserver>
+);

@@ -14,7 +14,7 @@ a,abbr,acronym,address,applet,article,aside,audio,b,big,blockquote,body,canvas,c
   to { background: var(--visual-color); }
 }
 
-.start-screen, .alpha-brain {
+.start-screen, .ave-screen {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -22,7 +22,7 @@ a,abbr,acronym,address,applet,article,aside,audio,b,big,blockquote,body,canvas,c
   height: 100vh;
 }
 
-.alpha-brain {
+.ave-screen {
   background: #000;
   animation: sineBg var(--visual-modulation-frequency) alternate infinite ease-in-out;
 }

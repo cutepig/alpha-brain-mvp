@@ -10,19 +10,22 @@
     "clean": "rm -rf dist/ .cache/"
   },
   "alias": {
-    "ab": "./src/ab"
+    "ab": "./src/ab",
+    "react": "preact-compat"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@types/redom": "3.12.0",
     "nosleep.js": "0.9.0",
-    "redom": "3.17.1",
+    "preact": "8.4.2",
+    "preact-compat": "3.18.4",
+    "preact-context": "1.1.2",
     "static-server": "2.2.1",
     "xstream": "11.7.0"
   },
   "devDependencies": {
+    "@types/react": "16.7.18",
     "parcel-bundler": "1.11.0",
     "typescript": "3.2.2"
   }

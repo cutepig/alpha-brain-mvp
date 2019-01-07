@@ -1,42 +1,36 @@
-import {Stream, Listener} from 'xstream';
-import {RedomComponent} from 'redom';
+import {Component, ReactNode} from 'react';
+import {Stream, Subscription} from 'xstream';
 
-export interface IComponent<P> extends RedomComponent {
-  update(props: P): void;
+interface IObserve<P> {
+  in$: Stream<P>;
+  children: (value: P) => ReactNode;
+}
+interface IObserveState<P> {
+  value?: P;
 }
 
-export function subscribeTo<P>(in$: Stream<P>) {
-  return (el: IComponent<P>) => {
-    const {onmount, onunmount} = el;
+export class Observe<P> extends Component<IObserve<P>> {
+  subscription?: Subscription;
+  state: IObserveState<P> = {};
 
-    const listener: Listener<P> = {
-      next: value => {
-        // console.log('Subscriber next', value);
-        el.update(value);
-      },
-      error: e => {
-        console.error('Subscriber error', e);
-        throw e;
-      },
-      complete: () => undefined,
-    };
+  componentDidMount() {
+    this.subscription = this.props.in$.subscribe({
+      next: value => this.setState((state: IObserveState<P>) => ({...state, value})),
+      error: error => console.error('Observe:', error),
+    });
+  }
 
-    el.onmount = () => {
-      // console.log('Subscriber onmount');
-      in$.addListener(listener);
-      if (onmount) {
-        onmount.call(el);
-      }
-    };
+  componentWillUnmount() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+      this.subscription = undefined;
+    }
+  }
 
-    el.onunmount = () => {
-      // console.log('Subscriber onunmount');
-      in$.removeListener(listener);
-      if (onunmount) {
-        onunmount.call(el);
-      }
-    };
+  render() {
+    const {children} = this.props;
+    const {value} = this.state;
 
-    return el;
-  };
+    return typeof value !== 'undefined' && !!children && children(value);
+  }
 }

@@ -19,5 +19,5 @@ function getConfig(): IConfig {
 }
 
 export function createConfigService(defaultConfig = getConfig()) {
-  return xs.of(defaultConfig);
+  return {state$: xs.of(defaultConfig)};
 }
