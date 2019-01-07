@@ -5,12 +5,25 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "static-server src"
+    "start": "parcel src/ab/index.html",
+    "build": "parcel build src/ab/index.html",
+    "clean": "rm -rf dist/ .cache/"
+  },
+  "alias": {
+    "ab": "./src/ab"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "static-server": "2.2.1"
+    "@types/redom": "3.12.0",
+    "nosleep.js": "0.9.0",
+    "redom": "3.17.1",
+    "static-server": "2.2.1",
+    "xstream": "11.7.0"
+  },
+  "devDependencies": {
+    "parcel-bundler": "1.11.0",
+    "typescript": "3.2.2"
   }
 }
