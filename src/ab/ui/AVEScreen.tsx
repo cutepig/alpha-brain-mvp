@@ -14,6 +14,7 @@ class _AVEScreen extends Component<IAVEScreen> {
   audioContext: AudioContext;
   carrierNode: OscillatorNode;
   modulatorNode: OscillatorNode;
+  modulatorGainNode: GainNode;
   gainNode: GainNode;
 
   constructor(props: IAVEScreen) {
@@ -24,6 +25,7 @@ class _AVEScreen extends Component<IAVEScreen> {
     this.audioContext = new AudioContext();
     this.carrierNode = new OscillatorNode(this.audioContext);
     this.modulatorNode = new OscillatorNode(this.audioContext);
+    this.modulatorGainNode = new GainNode(this.audioContext);
     this.gainNode = new GainNode(this.audioContext);
   }
 
@@ -61,9 +63,11 @@ class _AVEScreen extends Component<IAVEScreen> {
 
     this.carrierNode.frequency.value = config.audioCarrierFrequency;
     this.modulatorNode.frequency.value = config.audioModulationFrequency;
+    this.modulatorGainNode.gain.value = config.audioVolume / 100;
     this.gainNode.gain.value = 0;
 
-    this.modulatorNode.connect(this.gainNode.gain);
+    this.modulatorNode.connect(this.modulatorGainNode);
+    this.modulatorGainNode.connect(this.gainNode.gain);
     this.carrierNode.connect(this.gainNode);
     this.gainNode.connect(this.audioContext.destination);
 

@@ -4,12 +4,13 @@ type Screen = 'start' | 'ave';
 
 export interface IFlow {
   screen: Screen;
+  isConfigVisible: boolean;
 }
 
-type FlowAction = Action<'changeScreen', Screen>;
+type FlowAction = Action<'changeScreen', Screen> | Action<'toggleConfig'>;
 
 export function createFlowService() {
-  const initialState: IFlow = {screen: 'start'};
+  const initialState: IFlow = {screen: 'start', isConfigVisible: false};
 
   const action$ = xs.create<FlowAction>();
 
@@ -19,6 +20,10 @@ export function createFlowService() {
         changeScreen: (state, screen) => ({
           ...state,
           screen,
+        }),
+        toggleConfig: state => ({
+          ...state,
+          isConfigVisible: !state.isConfigVisible,
         }),
       }),
     initialState,

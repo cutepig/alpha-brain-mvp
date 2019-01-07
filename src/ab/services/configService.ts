@@ -6,6 +6,7 @@ export interface IConfig {
   visualIntensity: number; // 0-100
   audioCarrierFrequency: number; // In Hz
   audioModulationFrequency: number; // In Hz
+  audioVolume: number; // 0-100
 }
 
 function getConfig(): IConfig {
@@ -15,9 +16,14 @@ function getConfig(): IConfig {
     visualIntensity: 50,
     audioCarrierFrequency: 100,
     audioModulationFrequency: 10,
+    audioVolume: 50,
   };
 }
 
+type ConfigUpdateFn = (config: IConfig) => IConfig;
+
 export function createConfigService(defaultConfig = getConfig()) {
-  return {state$: xs.of(defaultConfig)};
+  const update$ = xs.create<ConfigUpdateFn>();
+  const state$ = update$.fold<IConfig>((state, updateFn) => updateFn(state), defaultConfig);
+  return {state$, update$};
 }

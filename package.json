@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "serve": "static-server dist",
     "start": "parcel src/ab/index.html",
     "build": "parcel build src/ab/index.html",
     "clean": "rm -rf dist/ .cache/"
@@ -22,6 +23,7 @@
     "preact-compat": "3.18.4",
     "preact-context": "1.1.2",
     "static-server": "2.2.1",
+    "tachyons": "4.11.1",
     "xstream": "11.7.0"
   },
   "devDependencies": {

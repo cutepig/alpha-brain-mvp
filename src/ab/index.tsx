@@ -30,7 +30,7 @@ class App extends Component<IApp> {
   renderChildren(flow: IFlow) {
     switch (flow.screen) {
       case 'start':
-        return <StartScreen />;
+        return <StartScreen isConfigVisible={flow.isConfigVisible} />;
       case 'ave':
         return <AVEScreen />;
     }
