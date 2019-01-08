@@ -8,6 +8,7 @@
     "serve": "static-server dist",
     "start": "parcel src/ab/index.html",
     "build": "parcel build src/ab/index.html",
+    "now-build": "npm run build",
     "clean": "rm -rf dist/ .cache/"
   },
   "alias": {
