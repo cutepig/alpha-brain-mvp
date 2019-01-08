@@ -103,6 +103,20 @@ export class StartScreen extends Component<IStartScreen> {
                     />
                     <span> %</span>
                   </label>
+
+                  <label className="db pa2">
+                    <input
+                      type="checkbox"
+                      checked={config.enableFullscreen}
+                      onChange={ev =>
+                        services.config.update$.shamefullySendNext(state => ({
+                          ...state,
+                          enableFullscreen: !!ev.target.checked,
+                        }))
+                      }
+                    />
+                    <span> Fullscreen</span>
+                  </label>
                 </fieldset>
 
                 <fieldset className="bt bl-0 bb-0 br-0 b--light-yellow">

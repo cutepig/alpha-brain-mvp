@@ -34,7 +34,7 @@ class _AVEScreen extends Component<IAVEScreen> {
       <Services.Consumer>
         {({flow}: IServices) => (
           <div
-            className="ave-screen"
+            className="ave-screen vw-100 vh-100"
             ref={el => (this.el = el)}
             onClick={() =>
               flow.action$.shamefullySendNext({type: 'changeScreen', payload: 'start'})
@@ -57,14 +57,15 @@ class _AVEScreen extends Component<IAVEScreen> {
       `${0.5 / config.visualModulationFrequency}s`,
     );
 
-    // TODO: config this
-    this.el!.requestFullscreen();
+    if (config.enableFullscreen) {
+      this.el!.requestFullscreen();
+    }
     this.nosleep.enable();
 
     this.carrierNode.frequency.value = config.audioCarrierFrequency;
     this.modulatorNode.frequency.value = config.audioModulationFrequency;
     this.modulatorGainNode.gain.value = config.audioVolume / 100;
-    this.gainNode.gain.value = 0;
+    this.gainNode.gain.value = 0.5;
 
     this.modulatorNode.connect(this.modulatorGainNode);
     this.modulatorGainNode.connect(this.gainNode.gain);

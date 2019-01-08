@@ -7,6 +7,7 @@ export interface IConfig {
   audioCarrierFrequency: number; // In Hz
   audioModulationFrequency: number; // In Hz
   audioVolume: number; // 0-100
+  enableFullscreen: boolean;
 }
 
 function getConfig(): IConfig {
@@ -17,6 +18,7 @@ function getConfig(): IConfig {
     audioCarrierFrequency: 100,
     audioModulationFrequency: 10,
     audioVolume: 50,
+    enableFullscreen: true,
   };
 }
 
